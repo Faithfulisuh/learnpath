@@ -8,11 +8,11 @@ import {
   Platform,
   ScrollView,
 } from 'react-native';
-import FormField from '../../components/FormField';
 import { Ionicons } from '@expo/vector-icons';
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import CustomBottomSheet, { CustomBottomSheetRef } from 'components/CustomBottomSheet';
 import { router } from 'expo-router';
+import FormField from '../../components/FormField';
 import CustomButton from 'components/CustomButton';
 
 interface FormData {
@@ -91,8 +91,7 @@ const Signup: React.FC = () => {
                   Create your account and start learning
                 </Text>
               </View>
-
-              {/* Input Field */}
+              
               {/* Input Fields */}
               <View className="mb-4">
                 <FormField

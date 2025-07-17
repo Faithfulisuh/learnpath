@@ -4,7 +4,7 @@ import { router } from 'expo-router';
 
 const Home = () => {
   useEffect(() => {
-    router.replace('/(auth)/sign-up');
+    router.replace('/onboarding/step1');
   }, []);
   return null;
 };
