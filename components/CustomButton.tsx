@@ -22,7 +22,7 @@ const CustomButton: React.FC<CustomButtonProps> = ({
     <TouchableOpacity
       onPress={onPress}
       disabled={disabled || loading}
-      className={`h-12 items-center justify-center rounded-lg bg-myblue ${disabled ? 'opacity-50' : ''}`}
+      className={`h-16 w-full items-center justify-center rounded-lg bg-myblue ${disabled ? 'opacity-50' : ''}`}
       style={style}
     >
       {loading ? (

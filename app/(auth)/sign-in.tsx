@@ -4,13 +4,13 @@ import React, { useState } from 'react';
 import {
   View,
   Text,
-  TextInput,
   TouchableOpacity,
   SafeAreaView,
   KeyboardAvoidingView,
   Platform,
   ScrollView,
 } from 'react-native';
+import FormField from '../../components/FormField';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import CustomButton from '../../components/CustomButton';
@@ -60,42 +60,27 @@ const SignIn = () => {
 
             {/* Email Input */}
             <View className="mb-4">
-              <Text className="mb-1 font-psemibold text-sm text-gray-700">Email address</Text>
-              <View className="h-12 flex-row items-center rounded-lg border border-gray-300 bg-gray-50 px-3">
-                <Ionicons name="mail-outline" size={18} color="#9CA3AF" />
-                <TextInput
-                  className="ml-2 flex-1 font-pregular text-xs text-gray-800"
-                  placeholder="Enter your email"
-                  placeholderTextColor="#9CA3AF"
-                  keyboardType="email-address"
-                  autoCapitalize="none"
-                  value={email}
-                  onChangeText={setEmail}
-                />
-              </View>
+              <FormField
+                title="Email"
+                value={email}
+                placeholder="Enter your email"
+                handleChangeText={setEmail}
+                keyboardType="email-address"
+                autoCapitalize="none"
+                OtherStyles=""
+              />
             </View>
 
             {/* Password Input */}
             <View className="mb-2">
-              <Text className="mb-1 font-psemibold text-sm text-gray-700">Password</Text>
-              <View className="h-12 flex-row items-center rounded-lg border border-gray-300 bg-gray-50 px-3">
-                <Ionicons name="lock-closed-outline" size={18} color="#9CA3AF" />
-                <TextInput
-                  className="ml-2 flex-1 font-pregular text-xs text-gray-800"
-                  placeholder="Enter your password"
-                  placeholderTextColor="#9CA3AF"
-                  secureTextEntry={!showPassword}
-                  value={password}
-                  onChangeText={setPassword}
-                />
-                <TouchableOpacity onPress={() => setShowPassword(!showPassword)} className="p-1">
-                  <Ionicons
-                    name={showPassword ? 'eye-off-outline' : 'eye-outline'}
-                    size={20}
-                    color="#9CA3AF"
-                  />
-                </TouchableOpacity>
-              </View>
+              <FormField
+                title="Password"
+                value={password}
+                placeholder="Enter your password"
+                handleChangeText={setPassword}
+                secureTextEntry={true}
+                OtherStyles=""
+              />
             </View>
 
             {/* Remember Me & Forgot Password */}

@@ -3,13 +3,13 @@ import React, { useState } from 'react';
 import {
   View,
   Text,
-  TextInput,
   TouchableOpacity,
   SafeAreaView,
   KeyboardAvoidingView,
   Platform,
   ScrollView,
 } from 'react-native';
+import FormField from '../../components/FormField';
 
 import CustomButton from '../../components/CustomButton';
 import { Ionicons } from '@expo/vector-icons';
@@ -55,19 +55,15 @@ const ForgotPassword = () => {
             </Text>
 
             <View className="w-full rounded-2xl bg-white p-6 shadow-md">
-              <Text className="mb-1 font-psemibold text-sm text-gray-700">Email address</Text>
-              <View className="h-12 flex-row items-center rounded-lg border border-gray-300 bg-gray-50 px-3 mb-4">
-                <Ionicons name="mail-outline" size={18} color="#9CA3AF" />
-                <TextInput
-                  className="ml-2 flex-1 font-pregular text-xs text-gray-800"
-                  placeholder="Enter your email"
-                  placeholderTextColor="#9CA3AF"
-                  keyboardType="email-address"
-                  autoCapitalize="none"
-                  value={email}
-                  onChangeText={setEmail}
-                />
-              </View>
+              <FormField
+                title="Email"
+                value={email}
+                placeholder="Enter your email"
+                handleChangeText={setEmail}
+                keyboardType="email-address"
+                autoCapitalize="none"
+                OtherStyles="mb-4"
+              />
               <CustomButton
                 title="Send Reset Link"
                 onPress={handleSendResetLink}

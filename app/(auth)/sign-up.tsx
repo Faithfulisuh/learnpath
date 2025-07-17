@@ -2,13 +2,13 @@ import React, { useState, useRef, useMemo, useCallback } from 'react';
 import {
   View,
   Text,
-  TextInput,
   TouchableOpacity,
   SafeAreaView,
   KeyboardAvoidingView,
   Platform,
   ScrollView,
 } from 'react-native';
+import FormField from '../../components/FormField';
 import { Ionicons } from '@expo/vector-icons';
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import CustomBottomSheet, { CustomBottomSheetRef } from 'components/CustomBottomSheet';
@@ -32,7 +32,6 @@ const Signup: React.FC = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState<boolean>(false);
   const [agreeToTerms, setAgreeToTerms] = useState<boolean>(false);
-  const [sheetMessage, setSheetMessage] = useState<string>('');
 
   const bottomSheetRef = useRef<CustomBottomSheetRef>(null);
 
@@ -74,10 +73,6 @@ const Signup: React.FC = () => {
     }
   };
 
-  const handleSocialLogin = (provider: string): void => {
-    openBottomSheet(`${provider} login would be implemented here.`);
-  };
-
   const handleSignIn = (): void => {
     router.push('/(auth)/sign-in');
   };
@@ -98,53 +93,47 @@ const Signup: React.FC = () => {
               </View>
 
               {/* Input Field */}
-              {(['fullName', 'email', 'password', 'confirmPassword'] as (keyof FormData)[]).map(
-                (field) => (
-                  <View className="mb-4" key={field}>
-                    <Text className="mb-1 font-psemibold text-sm capitalize text-gray-700">
-                      {field.replace(/([A-Z])/g, ' $1')}
-                    </Text>
-                    <View className="h-12 flex-row items-center rounded-lg border border-gray-300 bg-gray-50 px-3">
-                      <Ionicons
-                        name={field.includes('mail') ? 'mail-outline' : 'person-outline'}
-                        size={18}
-                        color="#9CA3AF"
-                      />
-                      <TextInput
-                        className="ml-2 flex-1 font-pregular text-xs text-gray-800"
-                        placeholder={`Enter your ${field}`}
-                        placeholderTextColor="#9CA3AF"
-                        secureTextEntry={
-                          (field === 'password' && !showPassword) ||
-                          (field === 'confirmPassword' && !showConfirmPassword)
-                        }
-                        value={formData[field]}
-                        onChangeText={(text) => handleInputChange(field, text)}
-                      />
-                      {['password', 'confirmPassword'].includes(field) && (
-                        <TouchableOpacity
-                          onPress={() =>
-                            field === 'password'
-                              ? setShowPassword(!showPassword)
-                              : setShowConfirmPassword(!showConfirmPassword)
-                          }
-                          className="p-1">
-                          <Ionicons
-                            name={
-                              (field === 'password' && showPassword) ||
-                              (field === 'confirmPassword' && showConfirmPassword)
-                                ? 'eye-off-outline'
-                                : 'eye-outline'
-                            }
-                            size={20}
-                            color="#9CA3AF"
-                          />
-                        </TouchableOpacity>
-                      )}
-                    </View>
-                  </View>
-                )
-              )}
+              {/* Input Fields */}
+              <View className="mb-4">
+                <FormField
+                  title="Full Name"
+                  value={formData.fullName}
+                  placeholder="Enter your full name"
+                  handleChangeText={(text) => handleInputChange('fullName', text)}
+                  OtherStyles=""
+                />
+              </View>
+              <View className="mb-4">
+                <FormField
+                  title="Email"
+                  value={formData.email}
+                  placeholder="Enter your email"
+                  handleChangeText={(text) => handleInputChange('email', text)}
+                  keyboardType="email-address"
+                  autoCapitalize="none"
+                  OtherStyles=""
+                />
+              </View>
+              <View className="mb-4">
+                <FormField
+                  title="Password"
+                  value={formData.password}
+                  placeholder="Enter your password"
+                  handleChangeText={(text) => handleInputChange('password', text)}
+                  secureTextEntry={true}
+                  OtherStyles=""
+                />
+              </View>
+              <View className="mb-4">
+                <FormField
+                  title="Confirm Password"
+                  value={formData.confirmPassword}
+                  placeholder="Confirm your password"
+                  handleChangeText={(text) => handleInputChange('confirmPassword', text)}
+                  secureTextEntry={true}
+                  OtherStyles=""
+                />
+              </View>
 
               {/* Checkbox */}
               <TouchableOpacity
@@ -157,7 +146,7 @@ const Signup: React.FC = () => {
                   }>
                   {agreeToTerms && <Ionicons name="checkmark" size={14} color="#fff" />}
                 </View>
-                <Text className="text-sm text-gray-600">
+                <Text className="text-sm font-pregular text-gray-600">
                   I agree to the{' '}
                   <Text className="font-psemibold text-myblue">Terms of Service</Text> and{' '}
                   <Text className="font-psemibold text-myblue">Privacy Policy</Text>
