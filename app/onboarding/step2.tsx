@@ -25,11 +25,11 @@ const Step2: React.FC = () => {
   return (
     <ScrollView contentContainerStyle={{ flexGrow: 1 }} showsVerticalScrollIndicator={false}>
       <View className="flex-1 bg-white p-6">
-        <Text className="text-2xl font-pbold text-center mt-4">Welcome to LearnPath</Text>
-        <Text className="text-center text-gray-500 mb-4 font-pregular">Let's personalize your learning experience</Text>
+        <Text className="text-2xl font-pbold text-center my-4">Welcome to LearnPath</Text>
+        <Text className="text-center text-gray-500 font-pregular">Let's personalize your learning experience</Text>
         <View className="h-1 bg-blue-600 my-4 rounded-full" />
         <Text className="text-lg font-psemibold text-center my-2">Your interests & skills</Text>
-        <Text className="text-center text-gray-500 mb-4 font-pregular">
+        <Text className="text-center text-sm text-gray-500 mb-4 font-pregular">
           What topics interest you and what skills do you currently have?
         </Text>
         <Text className="font-psemibold mt-3">What are you interested in learning? (Select all that apply)</Text>

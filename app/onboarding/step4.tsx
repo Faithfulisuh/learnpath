@@ -29,11 +29,11 @@ const Step4: React.FC = () => {
   return (
     <ScrollView contentContainerStyle={{ flexGrow: 1 }} showsVerticalScrollIndicator={false}>
       <View className="flex-1 bg-white p-6">
-        <Text className="text-2xl font-pbold text-center mt-4">Welcome to LearnPath</Text>
-        <Text className="text-center text-gray-500 mb-4 font-pregular">Let's personalize your learning experience</Text>
+        <Text className="text-2xl font-pbold text-center my-4">Welcome to LearnPath</Text>
+        <Text className="text-center text-gray-500 font-pregular">Let's personalize your learning experience</Text>
         <View className="h-1 bg-blue-600 my-4 rounded-full" />
         <Text className="text-lg font-psemibold text-center my-2">Learning preferences</Text>
-        <Text className="text-center text-gray-500 mb-4 font-pregular">
+        <Text className="text-center text-sm text-gray-500 mb-4 font-pregular">
           Tell us about your learning style and availability
         </Text>
         <Text className="font-psemibold mt-3">How much time can you dedicate to learning per week?</Text>
@@ -73,7 +73,7 @@ const Step4: React.FC = () => {
           <Text className="font-pregular">Back</Text>
           </TouchableOpacity>
           <Text className="font-pregular">Step 4 of 4</Text>
-          <TouchableOpacity className="bg-blue-600 rounded-lg py-2 px-6" onPress={() => {/* handle finish */}}>
+          <TouchableOpacity className="bg-blue-600 rounded-lg py-2 px-6" onPress={() => router.push('/onboarding/step1')}>
             <Text className="text-white font-psemibold">Get Started</Text>
           </TouchableOpacity>
         </View>
