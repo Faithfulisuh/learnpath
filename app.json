@@ -24,6 +24,7 @@
       "supportsTablet": true
     },
     "android": {
+      "package": "com.faithfulsuh.learnpath",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"

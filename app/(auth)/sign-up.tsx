@@ -10,7 +10,10 @@ import {
   ScrollView,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { BottomSheetModal, BottomSheetModalProvider } from '@gorhom/bottom-sheet';
+import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
+import CustomBottomSheet, { CustomBottomSheetRef } from 'components/CustomBottomSheet';
+import { router } from 'expo-router';
+import CustomButton from 'components/CustomButton';
 
 interface FormData {
   fullName: string;
@@ -31,12 +34,10 @@ const Signup: React.FC = () => {
   const [agreeToTerms, setAgreeToTerms] = useState<boolean>(false);
   const [sheetMessage, setSheetMessage] = useState<string>('');
 
-  const bottomSheetModalRef = useRef<BottomSheetModal>(null);
-  const snapPoints = useMemo(() => ['30%'], []);
+  const bottomSheetRef = useRef<CustomBottomSheetRef>(null);
 
   const openBottomSheet = (message: string) => {
-    setSheetMessage(message);
-    bottomSheetModalRef.current?.present();
+    bottomSheetRef.current?.present(message);
   };
 
   const handleInputChange = (field: keyof FormData, value: string) => {
@@ -78,7 +79,7 @@ const Signup: React.FC = () => {
   };
 
   const handleSignIn = (): void => {
-    openBottomSheet('Navigating to Sign In screen.');
+    router.push('/(auth)/sign-in');
   };
 
   return (
@@ -88,7 +89,7 @@ const Signup: React.FC = () => {
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
           className="flex-1">
           <ScrollView contentContainerStyle={{ flexGrow: 1 }} className=" px-4 py-8">
-            <View className="flex-1 items-center justify-center rounded-2xl bg-white p-6 shadow-md">
+            <View className="flex-1 justify-center rounded-2xl bg-white p-6 shadow-md">
               <View className="mb-6 items-center">
                 <Text className="mb-1 font-pbold text-2xl text-myblack">Join LearnPath</Text>
                 <Text className="text-center font-pregular text-xs text-gray-500">
@@ -164,11 +165,11 @@ const Signup: React.FC = () => {
               </TouchableOpacity>
 
               {/* Create Account Button */}
-              <TouchableOpacity
+              <CustomButton
+                title="Create Account"
                 onPress={handleCreateAccount}
-                className="mb-4 h-12 items-center justify-center rounded-lg bg-myblue">
-                <Text className="font-pbold text-base text-white">Create Account</Text>
-              </TouchableOpacity>
+                style={{ marginBottom: 16 }}
+              />
 
               {/* Sign In */}
               <View className="mb-4 flex-row items-center justify-center">
@@ -183,15 +184,7 @@ const Signup: React.FC = () => {
           </ScrollView>
 
           {/* Bottom Sheet Modal */}
-          <BottomSheetModal
-            ref={bottomSheetModalRef}
-            snapPoints={snapPoints}
-            backdropComponent={() => <View className="flex-1 bg-black/50" />}>
-            <View className="p-5">
-              <Text className="mb-2 text-center font-pbold text-lg text-myblack">Notice</Text>
-              <Text className="text-center text-gray-700">{sheetMessage}</Text>
-            </View>
-          </BottomSheetModal>
+          <CustomBottomSheet ref={bottomSheetRef} />
         </KeyboardAvoidingView>
       </SafeAreaView>
     </BottomSheetModalProvider>
