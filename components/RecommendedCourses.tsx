@@ -1,46 +1,49 @@
 
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
+import { Recommendation } from '../lib/api';
+import { View, Text, TouchableOpacity, ScrollView, FlatList } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import FormField from './FormField';
 import CustomButton from './CustomButton';
+import { fetchRecommendations } from '../lib/api';
 
 const levels = ['All', 'Beginner', 'Intermediate', 'Advanced'];
 
-const courses = [
-  {
-    id: 1,
-    title: 'Complete Python for Data Science Bootcamp',
-    provider: 'DataTech Academy',
-    tags: ['Python', 'Data Analysis', 'Machine Learning', '+2 more'],
-    trending: true,
-    rating: 4.8,
-    reviews: 2847,
-    enrolled: 18500,
-    duration: '12 weeks',
-    level: 'Intermediate',
-    price: 89,
-  },
-  {
-    id: 2,
-    title: 'Advanced React Native Mobile Development',
-    provider: 'Mobile Masters',
-    tags: ['React Native', 'JavaScript', 'Mobile UI', '+1 more'],
-    trending: false,
-    rating: 4.6,
-    reviews: 1523,
-    enrolled: 12300,
-    duration: '8 weeks',
-    level: 'Advanced',
-    price: 129,
-  },
-];
+// const courses = [
+//   {
+//     id: 1,
+//     title: 'Complete Python for Data Science Bootcamp',
+//     provider: 'DataTech Academy',
+//     tags: ['Python', 'Data Analysis', 'Machine Learning', '+2 more'],
+//     trending: true,
+//     rating: 4.8,
+//     reviews: 2847,
+//     enrolled: 18500,
+//     duration: '12 weeks',
+//     level: 'Intermediate',
+//     price: 89,
+//   },
+//   {
+//     id: 2,
+//     title: 'Advanced React Native Mobile Development',
+//     provider: 'Mobile Masters',
+//     tags: ['React Native', 'JavaScript', 'Mobile UI', '+1 more'],
+//     trending: false,
+//     rating: 4.6,
+//     reviews: 1523,
+//     enrolled: 12300,
+//     duration: '8 weeks',
+//     level: 'Advanced',
+//     price: 129,
+//   },
+// ];
 
 const RecommendedCourses = () => {
   const [selectedLevel, setSelectedLevel] = useState('All');
-  const [search, setSearch] = useState('');
   const [isLoggedIn, setIsLoggedIn] = useState(false); // default to not logged in
+  const [query, setQuery] = useState('');
+  const [courses, setCourses] = useState<Recommendation[]>([]);
 
   const handleAuth = () => {
     if (isLoggedIn) {
@@ -50,6 +53,11 @@ const RecommendedCourses = () => {
       // handle login logic here (e.g., navigate to login screen)
       setIsLoggedIn(true);
     }
+  };
+
+  const handleSearch = async () => {
+    const results = await fetchRecommendations(query);
+    setCourses(results);
   };
 
   return (
@@ -86,6 +94,21 @@ const RecommendedCourses = () => {
         <Text className="font-pregular text-sm text-gray-500 mb-3">Based on your interests and learning goals</Text>
 
         <View style={{ flex: 1, paddingBottom: 64 }}>
+        <FlatList
+          data={courses}
+          keyExtractor={(item) => item.id.toString()}
+          renderItem={({ item }) => (
+            <View style={{ marginTop: 20 }}>
+              <Text style={{ fontWeight: 'bold' }}>{item.title}</Text>
+              <Text>Instructor: {item.instructor_name}</Text>
+              <Text>Skills: {item.skills.join(', ')}</Text>
+              <Text>Rating: {item.avg_rating} ({item.num_reviews} reviews)</Text>
+              <Text>Length: {item.content_length_min}</Text>
+              <Text>Category: {item.category}</Text>
+              <Text>Price: ${item.price}</Text>
+            </View>
+          )}
+        />
           <ScrollView showsVerticalScrollIndicator={false}>
             {courses
               .filter((c) => selectedLevel === 'All' || c.level === selectedLevel)
@@ -137,13 +160,16 @@ const RecommendedCourses = () => {
                 </View>
               ))}
           </ScrollView>
-          <View style={{ position: 'absolute', left: 0, right: 0, bottom: 0, backgroundColor: 'white', padding: 8, borderTopWidth: 1, borderColor: '#e5e7eb' }}>
+          <View className="flex-row absolute bottom-0 left-0 right-0 bg-white p-4 border-t border-gray-200">
             <FormField
               title=""
-              value={search}
+              value={query}
               placeholder="Search courses or skills..."
-              handleChangeText={setSearch}
+              handleChangeText={setQuery}
             />
+            <TouchableOpacity onPress={handleSearch} className="w-14 h-16 items-center justify-center border-gray-200 border-2 rounded-2xl">
+              <Ionicons name="search-outline" size={20} color="#6B7280" />
+            </TouchableOpacity>
           </View>
         </View>
       </View>
